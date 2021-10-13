@@ -1,1 +1,67 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import 'assets/styles/mat-table.css';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-button-focus-overlay {
+  display: none;
+}
+
+.cursor.pointer {
+  cursor: pointer;
+}
+
+.mat-form-field {
+  width: 328px;
+  height: 56px;
+}
+
+.btn {
+  border: none;
+  background: #fff;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+  color: rgb(42, 88, 133);
+}
+
+.btn:disabled {
+  color: #FFDBDFE3;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.ngx-mat-timepicker .mat-input-element {
+  padding: 0 !important;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.timepicker-overlay, .timepicker {
+  z-index: 1001 !important;
+}
+
+input[_ngcontent-htj-c212] {
+  border: 0 solid transparent;
+  background-color: #f1f1f1;
+  padding: 5px
+}
+
+input[type=text][_ngcontent-htj-c212] {
+  background-color: #f1f1f1;
+  width: 100%
+}
+
+.mat-simple-snackbar span {
+  margin: auto;
+  text-align: center;
+}
+
+::ng-deep snack-bar-container {
+  width: 100px;
+}

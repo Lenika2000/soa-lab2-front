@@ -1,0 +1,12 @@
+.cities-content {
+  display: block;
+  justify-content: center;
+  flex-direction: row;
+  min-width: 1000px;
+  padding-left: calc((45% - 307px)/2);
+  padding-right: calc((45% - 307px)/2);
+}
+
+.mat-table {
+  width: 100%;
+}

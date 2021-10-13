@@ -1,0 +1,63 @@
+<div class="add-or-update-form">
+  <form [formGroup]="cityForm">
+    <h2>{{ (this.isAddCityForm ? 'Add City' : 'Update City')}}</h2>
+    <mat-form-field class="vert-space-32" appearance="fill">
+      <mat-label class="text-disabled-clr subtitle-1">Name</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+    <mat-form-field class="vert-space-32" appearance="fill">
+      <mat-label class="text-disabled-clr subtitle-1">X</mat-label>
+      <input matInput formControlName="x">
+    </mat-form-field>
+    <mat-form-field class="vert-space-32" appearance="fill">
+      <mat-label class="text-disabled-clr subtitle-1">Y</mat-label>
+      <input matInput formControlName="y">
+    </mat-form-field>
+    <mat-form-field class="vert-space-32" appearance="fill">
+      <mat-label class="text-disabled-clr subtitle-1">Area</mat-label>
+      <input matInput formControlName="area">
+    </mat-form-field>
+    <mat-form-field class="vert-space-32" appearance="fill">
+      <mat-label class="text-disabled-clr subtitle-1">Population</mat-label>
+      <input matInput formControlName="population">
+    </mat-form-field>
+    <mat-form-field class="vert-space-32" appearance="fill">
+      <mat-label class="text-disabled-clr subtitle-1">Meters above sea level</mat-label>
+      <input matInput formControlName="metersAboveSeaLevel">
+    </mat-form-field>
+    <mat-form-field class="vert-space-32" appearance="fill">
+      <mat-label class="text-disabled-clr subtitle-1">Timezone</mat-label>
+      <input matInput formControlName="timezone">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Government</mat-label>
+      <mat-select formControlName="government">
+        <mat-option *ngFor="let type of governmentTypes" [value]="type">{{type}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Standard of living</mat-label>
+      <mat-select formControlName="standardOfLiving">
+        <mat-option *ngFor="let type of standardOfLivingTypes" [value]="type">{{type}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="vert-space-32" appearance="fill">
+      <mat-label class="text-disabled-clr subtitle-1">Height</mat-label>
+      <input matInput formControlName="height">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Birthday Date</mat-label>
+        <input matInput readonly formControlName="birthdayDate" [matDatepicker]="dp">
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Birthday Time</mat-label>
+        <input matInput formControlName="birthdayTime" [ngxTimepicker]="start_time" [format]="24" readonly>
+        <ngx-material-timepicker #start_time [enableKeyboardInput]="true"></ngx-material-timepicker>
+    </mat-form-field>
+
+    <button mat-raised-button (click)="submit()"
+            [disabled]="cityForm.invalid">{{ (this.isAddCityForm ? 'Add' : 'Update' ) }}</button>
+  </form>
+</div>

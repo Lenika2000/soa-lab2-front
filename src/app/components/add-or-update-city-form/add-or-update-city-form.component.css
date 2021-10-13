@@ -1,0 +1,22 @@
+.add-or-update-form {
+
+}
+
+.mat-form-field {
+  display: block;
+  margin-right: 20px;
+  margin-left: 20px;
+  margin-top: 8px;
+}
+
+.mat-input-element, .mat-select {
+  padding: 2px 16px 5px 16px !important;
+}
+
+.mat-datepicker-content .mat-calendar {
+  zoom: 0.85;
+}
+
+mat-form-field {
+  width: 400px;
+}

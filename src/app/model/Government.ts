@@ -1,0 +1,1 @@
+export type Government = 'CORPORATOCRACY' | 'PUPPET_STATE' | 'NOOCRACY' | 'TELLUROCRACY';
