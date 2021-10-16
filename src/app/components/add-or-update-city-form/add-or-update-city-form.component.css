@@ -1,5 +1,15 @@
-.add-or-update-form {
+.mat-dialog-container{
+  position: relative;
+  background: #FFFFFF;
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.14), 0 3px 3px rgba(0, 0, 0, 0.12),
+  0 1px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
 
+.add-or-update-form__btns {
+  display: flex;
+  margin-top: 12px;
+  flex-flow: row-reverse;
 }
 
 .mat-form-field {

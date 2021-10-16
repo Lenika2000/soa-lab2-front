@@ -1,6 +1,6 @@
 <div class="add-or-update-form">
   <form [formGroup]="cityForm">
-    <h2>{{ (this.isAddCityForm ? 'Add City' : 'Update City')}}</h2>
+    <h2 style="text-align: center;">{{ (this.data.isAddOperation ? 'Add City' : 'Update City')}}</h2>
     <mat-form-field class="vert-space-32" appearance="fill">
       <mat-label class="text-disabled-clr subtitle-1">Name</mat-label>
       <input matInput formControlName="name">
@@ -57,7 +57,10 @@
         <ngx-material-timepicker #start_time [enableKeyboardInput]="true"></ngx-material-timepicker>
     </mat-form-field>
 
-    <button mat-raised-button (click)="submit()"
-            [disabled]="cityForm.invalid">{{ (this.isAddCityForm ? 'Add' : 'Update' ) }}</button>
+    <div class="add-or-update-form__btns">
+    <button mat-button (click)="closeDialog()" class="btn cursor pointer">Cansel</button>
+    <button mat-button (click)="submit()"
+            [disabled]="cityForm.invalid" class="btn cursor pointer">{{ (this.data.isAddOperation ? 'Add' : 'Update' ) }}</button>
+    </div>
   </form>
 </div>

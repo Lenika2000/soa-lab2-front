@@ -11,6 +11,14 @@ export class CityService {
 
   constructor(private http: HttpClient) {}
 
+  getCities(): Observable<any> {
+    return this.http.get(`${environment.testUrl}/api/cities`)
+      .pipe(
+        // tap(this.setToken),
+        // catchError(this.handleError.bind(this))
+      );
+  }
+
   addCity(city: City): Observable<any> {
     return this.http.post(`${environment.testUrl}/api/cities`, city)
       .pipe(
@@ -19,8 +27,8 @@ export class CityService {
       );
   }
 
-  getCities(): Observable<any> {
-    return this.http.get(`${environment.testUrl}/api/cities`)
+  updateCity(city: City): Observable<any> {
+    return this.http.put(`${environment.testUrl}/api/cities/${city.id}`, city)
       .pipe(
         // tap(this.setToken),
         // catchError(this.handleError.bind(this))

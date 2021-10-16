@@ -1,2 +1,4 @@
-<app-city-table></app-city-table>
-<app-add-or-update-city-form></app-add-or-update-city-form>
+<app-city-table (updateCityEvent)="updateCity($event)"
+                (deleteCityEvent)="deleteCity($event)"
+                [cities]="cities"></app-city-table>
+<button (click)="addCity()" >add</button>
