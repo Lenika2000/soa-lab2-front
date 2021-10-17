@@ -58,7 +58,7 @@
     </mat-form-field>
 
     <div class="add-or-update-form__btns">
-    <button mat-button (click)="closeDialog()" class="btn cursor pointer">Cansel</button>
+    <button mat-button (click)="closeDialog()" class="btn cursor pointer">Cancel</button>
     <button mat-button (click)="submit()"
             [disabled]="cityForm.invalid" class="btn cursor pointer">{{ (this.data.isAddOperation ? 'Add' : 'Update' ) }}</button>
     </div>

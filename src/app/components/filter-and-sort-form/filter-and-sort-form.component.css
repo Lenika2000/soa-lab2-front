@@ -1,0 +1,38 @@
+.mat-form-field {
+  margin-right: 20px;
+}
+
+.filter-and-sort-form {
+  display: flex;
+  flex-direction: row;
+}
+
+.sort, .mat-radio-group, .pagination  {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.filter {
+  display: flex;
+  flex-direction: row;
+}
+
+.enums {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sort__radio-btn {
+  margin: 5px;
+}
+
+.filter__disable-checkbox {
+  margin-right: 15px;
+  position: relative;
+  bottom: 4px;
+}
+
+.enums__disable-checkbox {
+
+}

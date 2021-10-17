@@ -1,4 +1,5 @@
+<app-filter-and-sort-form></app-filter-and-sort-form>
 <app-city-table (updateCityEvent)="updateCity($event)"
                 (deleteCityEvent)="deleteCity($event)"
                 [cities]="cities"></app-city-table>
-<button (click)="addCity()" >add</button>
+<button mat-button (click)="addCity()"  class="btn cursor pointer">add</button>
