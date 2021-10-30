@@ -20,7 +20,7 @@ import {City} from '../../model/City';
 export class CityTableComponent implements OnInit, OnChanges {
 
   @Input() cities = [];
-  @Output() public updateCityEvent = new EventEmitter();
+  @Output() public updateCityEvent = new EventEmitter<City>();
   @Output() deleteCityEvent = new EventEmitter<number>();
   private isFirstChange = true;
   public displayedColumns = ['id', 'name', 'x', 'y', 'creationDate', 'area',

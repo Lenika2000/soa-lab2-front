@@ -1,5 +1,22 @@
-<app-filter-and-sort-form></app-filter-and-sort-form>
+<mat-tab-group>
+  <mat-tab label="Filtering and sorting">
+    <app-filter-and-sort-form
+      (getCitiesEvent)="filterCities($event)"
+      [paginationResult]="paginationResult"
+    ></app-filter-and-sort-form>
+  </mat-tab>
+  <mat-tab label="Additional operation">
+    <app-additional-operation-forms
+    (getCitiesByNameEvent)="getCitiesByName($event)"
+    (filterByMetersAboveSeaLevel)="getCitiesByMetersAboveSeaLevel($event)"></app-additional-operation-forms>
+  </mat-tab>
+  <mat-tab disabled>
+    <ng-template mat-tab-label>
+      <button mat-button (click)="addCity()"  class="cursor pointer">Аdd Сity</button>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+
 <app-city-table (updateCityEvent)="updateCity($event)"
                 (deleteCityEvent)="deleteCity($event)"
                 [cities]="cities"></app-city-table>
-<button mat-button (click)="addCity()"  class="btn cursor pointer">add</button>

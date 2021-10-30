@@ -22,6 +22,11 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { FilterAndSortFormComponent } from './components/filter-and-sort-form/filter-and-sort-form.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
+import {SnackBarService} from './services/snack-bar.service';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { AdditionalOperationFormsComponent } from './components/additional-operation-forms/additional-operation-forms.component';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -29,7 +34,8 @@ import {MatRadioModule} from '@angular/material/radio';
     MainPageComponent,
     AddOrUpdateCityFormComponent,
     CityTableComponent,
-    FilterAndSortFormComponent
+    FilterAndSortFormComponent,
+    AdditionalOperationFormsComponent
   ],
     imports: [
         BrowserModule,
@@ -49,14 +55,18 @@ import {MatRadioModule} from '@angular/material/radio';
         MatRippleModule,
         MatCheckboxModule,
         FormsModule,
-        MatRadioModule
+        MatRadioModule,
+        MatTabsModule,
+        MatSnackBarModule,
+        ScrollingModule
     ],
   entryComponents: [
     AddOrUpdateCityFormComponent
   ],
   providers: [
     {provide: MatDialogRef, useValue: {}},
-    {provide: MAT_DIALOG_DATA, useValue: {}}],
+    {provide: MAT_DIALOG_DATA, useValue: {}},
+    SnackBarService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -5,6 +5,8 @@ import {City} from '../../model/City';
 import {AddOrUpdateCityFormComponent} from '../add-or-update-city-form/add-or-update-city-form.component';
 import {takeUntil} from 'rxjs/operators';
 import {ReplaySubject} from 'rxjs';
+import {PaginationResult} from '../../model/PaginationResult';
+import {SnackBarService} from '../../services/snack-bar.service';
 
 @Component({
   selector: 'app-main-page',
@@ -15,28 +17,36 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public cities = [];
   private onDestroy = new ReplaySubject(1);
+  public paginationResult: PaginationResult = {
+    pageSize: 5,
+    pageIndex: 0,
+    totalItems: 0,
+    list: []
+  };
+  private selectedFilterData = {
+    sort: ['id_asc'],
+    size: [5],
+    page: [0],
+  };
 
   constructor(private dialog: MatDialog,
-              private cityService: CityService) {
+              private cityService: CityService,
+              private snackBarService: SnackBarService) {
   }
 
   ngOnInit(): void {
   }
 
   ngAfterViewInit(): void {
-    this.getAllCities();
+    this.getAllCities(this.selectedFilterData);
   }
 
   updateCity(city: City): void {
     const dialogRef = this.openAddUpdateDialog(false, city);
-    dialogRef.componentInstance.cityUpdate.pipe(
+    dialogRef.componentInstance.getAllCities.pipe(
       takeUntil(this.onDestroy)
-    ).subscribe((updatedCity) => {
-      this.cityService.updateCity(updatedCity).pipe(
-        takeUntil(this.onDestroy)
-      ).subscribe(() => {
-        this.getAllCities();
-      });
+    ).subscribe(() => {
+      this.getAllCities(this.selectedFilterData);
     });
   }
 
@@ -51,14 +61,10 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   addCity(): void {
     const dialogRef = this.openAddUpdateDialog(true, null);
-    dialogRef.componentInstance.cityAdd.pipe(
+    dialogRef.componentInstance.getAllCities.pipe(
       takeUntil(this.onDestroy)
-    ).subscribe((newCity) => {
-      this.cityService.addCity(newCity).pipe(
-        takeUntil(this.onDestroy)
-      ).subscribe(() => {
-        this.getAllCities();
-      });
+    ).subscribe(() => {
+      this.getAllCities(this.selectedFilterData);
     });
   }
 
@@ -66,16 +72,54 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cityService.deleteCityById(id).pipe(
       takeUntil(this.onDestroy)
     ).subscribe(() => {
-      this.getAllCities();
+      this.getAllCities(this.selectedFilterData);
     });
   }
 
-  getAllCities(): void {
-    this.cityService.getCities().pipe(
+  getAllCities(filterData): void {
+    this.cityService.getCities(filterData).pipe(
+      takeUntil(this.onDestroy)
+    ).subscribe((paginationResults: PaginationResult) => {
+      this.paginationResult = paginationResults;
+      this.cities = paginationResults.list;
+      // todo change size and selectedPage
+    }, (error => {
+      this.snackBarService.openSnackBar(error);
+    }));
+  }
+
+  filterCities(filterData): void {
+    this.selectedFilterData = filterData;
+    this.getAllCities(filterData);
+  }
+
+  getCitiesByName(name: string): void {
+    this.cityService.getCitiesByName(name).pipe(
       takeUntil(this.onDestroy)
     ).subscribe((cities: City[]) => {
       this.cities = cities;
-    });
+    }, (error => {
+      this.getFilterCitiesError(error);
+    }));
+  }
+
+  getCitiesByMetersAboveSeaLevel(metersAboveSeaLevel: number): void {
+    this.cityService.getCitiesByMetersAboveSeaLevel(metersAboveSeaLevel).pipe(
+      takeUntil(this.onDestroy)
+    ).subscribe((cities: City[]) => {
+      this.cities = cities;
+    }, (error => {
+      this.getFilterCitiesError(error);
+    }));
+  }
+
+  getFilterCitiesError(error: any): void {
+    if (error.status === 404) {
+      this.cities = [];
+      this.snackBarService.openSnackBar('Cities not found');
+    } else {
+      this.snackBarService.openSnackBar(error);
+    }
   }
 
   ngOnDestroy(): void {

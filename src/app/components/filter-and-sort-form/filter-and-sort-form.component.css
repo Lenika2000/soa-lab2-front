@@ -1,16 +1,26 @@
 .mat-form-field {
   margin-right: 20px;
+  margin-top: 20px;
 }
 
 .filter-and-sort-form {
   display: flex;
+  justify-content: center;
   flex-direction: row;
+  height: 600px;
 }
 
 .sort, .mat-radio-group, .pagination  {
   display: flex;
   flex-direction: column;
-  margin: 15px 0;
+}
+
+.pagination {
+  margin-top: 48px;
+}
+
+.enums {
+  margin-top: 68px;
 }
 
 .filter {
@@ -35,4 +45,13 @@
 
 .enums__disable-checkbox {
 
+}
+
+.mat-form-field {
+  width: 200px;
+  height: 40px;
+}
+
+.submit_btn {
+  margin: 16px 0 0 auto;
 }

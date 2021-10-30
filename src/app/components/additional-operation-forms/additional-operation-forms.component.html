@@ -1,0 +1,50 @@
+<div class="additional-operations">
+  <div class="col">
+    <form [formGroup]="cityNameForm">
+      <p>Get Cities By Name</p>
+      <mat-form-field class="vert-space-32" appearance="fill">
+        <mat-label class="text-disabled-clr subtitle-1">Name</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+      <button mat-button (click)="getCitiesByName()"
+              [disabled]="cityNameForm.invalid" class="btn cursor pointer">Find
+      </button>
+    </form>
+  </div>
+  <div class="col">
+    <form [formGroup]="metersAboveSeaLevelFilterForm">
+      <p> Get cities with MetersAboveSeaLevel more than </p>
+      <mat-form-field class="vert-space-32" appearance="fill">
+        <mat-label class="text-disabled-clr subtitle-1">MetersAboveSeaLevel</mat-label>
+        <input matInput formControlName="metersAboveSeaLevel">
+      </mat-form-field>
+      <button mat-button (click)="getCitiesByMetersAboveSeaLevel()"
+              [disabled]="metersAboveSeaLevelFilterForm.invalid" class="btn cursor pointer">Find
+      </button>
+    </form>
+  </div>
+  <div class="col">
+    <p> Get unique values of MetersAboveSeeLevel </p>
+    <button mat-button (click)="getUniqueMetersAboveSeaLevel()" class="btn cursor pointer">Find</button>
+    <cdk-virtual-scroll-viewport appendOnly class="example-viewport" [itemSize]="5"
+                                 *ngIf="this.uniqueMetersAboveSeaLevel.length > 0">
+      <div *cdkVirtualFor="let item of uniqueMetersAboveSeaLevel" class="example-item">{{item}}</div>
+    </cdk-virtual-scroll-viewport>
+  </div>
+  <div class="col">
+    <p> The length of the route to the city with the largest area: </p>
+    <div *ngIf="routeLengthToCityWithMaxArea">
+      <p> City: {{routeLengthToCityWithMaxArea.city}} </p>
+      <p> Route length: {{routeLengthToCityWithMaxArea.length}} </p>
+    </div>
+    <button mat-button (click)="getUniqueMetersAboveSeaLevel()" class="btn cursor pointer">Find</button>
+  </div>
+  <div class="col">
+    <p> Route length from (0,0) to a city with a minimum population </p>
+    <div *ngIf="routeLengthToCityWithMinPopulation">
+      <p> City: {{routeLengthToCityWithMinPopulation.city}} </p>
+      <p> Route length: {{routeLengthToCityWithMinPopulation.length}} </p>
+    </div>
+    <button mat-button (click)="getUniqueMetersAboveSeaLevel()" class="btn cursor pointer">Find</button>
+  </div>
+</div>

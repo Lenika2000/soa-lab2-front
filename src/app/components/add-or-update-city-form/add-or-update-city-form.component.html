@@ -1,33 +1,40 @@
 <div class="add-or-update-form">
   <form [formGroup]="cityForm">
     <h2 style="text-align: center;">{{ (this.data.isAddOperation ? 'Add City' : 'Update City')}}</h2>
-    <mat-form-field class="vert-space-32" appearance="fill">
+    <mat-form-field class="vert-space-20" appearance="fill">
       <mat-label class="text-disabled-clr subtitle-1">Name</mat-label>
       <input matInput formControlName="name">
+      <mat-hint *ngIf="requestErrorsMap.get('name')">{{requestErrorsMap.get('name')}}</mat-hint>
     </mat-form-field>
-    <mat-form-field class="vert-space-32" appearance="fill">
+    <mat-form-field class="vert-space-20" appearance="fill">
       <mat-label class="text-disabled-clr subtitle-1">X</mat-label>
       <input matInput formControlName="x">
+      <mat-hint *ngIf="requestErrorsMap.get('x')">{{requestErrorsMap.get('x')}}</mat-hint>
     </mat-form-field>
-    <mat-form-field class="vert-space-32" appearance="fill">
+    <mat-form-field class="vert-space-20" appearance="fill">
       <mat-label class="text-disabled-clr subtitle-1">Y</mat-label>
       <input matInput formControlName="y">
+      <mat-hint *ngIf="requestErrorsMap.get('y')">{{requestErrorsMap.get('y')}}</mat-hint>
     </mat-form-field>
-    <mat-form-field class="vert-space-32" appearance="fill">
+    <mat-form-field class="vert-space-20" appearance="fill">
       <mat-label class="text-disabled-clr subtitle-1">Area</mat-label>
       <input matInput formControlName="area">
+      <mat-hint *ngIf="requestErrorsMap.get('area')">{{requestErrorsMap.get('area')}}</mat-hint>
     </mat-form-field>
-    <mat-form-field class="vert-space-32" appearance="fill">
+    <mat-form-field class="vert-space-20" appearance="fill">
       <mat-label class="text-disabled-clr subtitle-1">Population</mat-label>
       <input matInput formControlName="population">
+      <mat-hint *ngIf="requestErrorsMap.get('population')">{{requestErrorsMap.get('population')}}</mat-hint>
     </mat-form-field>
-    <mat-form-field class="vert-space-32" appearance="fill">
+    <mat-form-field class="vert-space-20" appearance="fill">
       <mat-label class="text-disabled-clr subtitle-1">Meters above sea level</mat-label>
       <input matInput formControlName="metersAboveSeaLevel">
+      <mat-hint *ngIf="requestErrorsMap.get('metersAboveSeaLevel')">{{requestErrorsMap.get('metersAboveSeaLevel')}}</mat-hint>
     </mat-form-field>
-    <mat-form-field class="vert-space-32" appearance="fill">
+    <mat-form-field class="vert-space-20" appearance="fill">
       <mat-label class="text-disabled-clr subtitle-1">Timezone</mat-label>
       <input matInput formControlName="timezone">
+      <mat-hint *ngIf="requestErrorsMap.get('timezone')">{{requestErrorsMap.get('timezone')}}</mat-hint>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Government</mat-label>
@@ -41,9 +48,10 @@
         <mat-option *ngFor="let type of standardOfLivingTypes" [value]="type">{{type}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field class="vert-space-32" appearance="fill">
+    <mat-form-field class="vert-space-20" appearance="fill">
       <mat-label class="text-disabled-clr subtitle-1">Height</mat-label>
       <input matInput formControlName="height">
+      <mat-hint *ngIf="requestErrorsMap.get('height')">{{requestErrorsMap.get('height')}}</mat-hint>
     </mat-form-field>
     <mat-form-field>
         <mat-label>Birthday Date</mat-label>

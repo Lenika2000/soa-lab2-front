@@ -63,6 +63,20 @@ input[type=text][_ngcontent-htj-c212] {
   text-align: center;
 }
 
-::ng-deep snack-bar-container {
+::ng-deep snack-bar-container.errors-snackbar {
   width: 100px;
+  background: red;
+  color: white;
+}
+
+.mat-tab-labels :last-child.mat-tab-label {
+  min-width: 0;
+  padding: 0 12px;
+  color: unset;
+  opacity: unset;
+}
+
+.mat-form-field-subscript-wrapper {
+  margin-top: 1px !important;
+  padding: 0 !important;
 }

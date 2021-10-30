@@ -1,183 +1,185 @@
-<form [formGroup]="cityFilterAndSortForm" class="filter-and-sort-form">
-  <div class="filter">
-    <div>
-      <h2 style="text-align: center;">Filter</h2>
-      <input class="form-check-input filter__disable-checkbox" type="checkbox"
-             (change)="this.selectedFields.name = !this.selectedFields.name">
-      <mat-form-field class="vert-space-32">
-        <mat-label class="text-disabled-clr subtitle-1">Name</mat-label>
-        <input matInput formControlName="name" [attr.disabled]="selectedFields.name?null:''">
-      </mat-form-field>
-      <div>
-        <input class="form-check-input filter__disable-checkbox" type="checkbox"
-               (change)="this.selectedFields.x = !this.selectedFields.x">
-        <mat-form-field class="vert-space-32">
-          <mat-label class="text-disabled-clr subtitle-1">X1</mat-label>
-          <input matInput formControlName="x1" [attr.disabled]="selectedFields.x?null:''">
-        </mat-form-field>
-        <mat-form-field class="vert-space-32">
-          <mat-label class="text-disabled-clr subtitle-1">X2</mat-label>
-          <input matInput formControlName="x2" [attr.disabled]="selectedFields.x?null:''">
-        </mat-form-field>
-      </div>
-      <div>
-        <input class="form-check-input filter__disable-checkbox" type="checkbox"
-               (change)="this.selectedFields.y = !this.selectedFields.y">
-        <mat-form-field class="vert-space-32">
-          <mat-label class="text-disabled-clr subtitle-1">Y1</mat-label>
-          <input matInput formControlName="y1" [attr.disabled]="selectedFields.y?null:''">
-        </mat-form-field>
-        <mat-form-field class="vert-space-32">
-          <mat-label class="text-disabled-clr subtitle-1">Y2</mat-label>
-          <input matInput formControlName="y2" [attr.disabled]="selectedFields.y?null:''">
-        </mat-form-field>
-      </div>
-      <div>
-        <input class="form-check-input filter__disable-checkbox" type="checkbox"
-               (change)="this.selectedFields.area = !this.selectedFields.area">
-        <mat-form-field class="vert-space-32">
-          <mat-label class="text-disabled-clr subtitle-1">Area1</mat-label>
-          <input matInput formControlName="area1" [attr.disabled]="selectedFields.area?null:''">
-        </mat-form-field>
-        <mat-form-field class="vert-space-32">
-          <mat-label class="text-disabled-clr subtitle-1">Area2</mat-label>
-          <input matInput formControlName="area2" [attr.disabled]="selectedFields.area?null:''">
-        </mat-form-field>
-      </div>
-      <div>
-        <input class="form-check-input filter__disable-checkbox" type="checkbox"
-               (change)="this.selectedFields.population = !this.selectedFields.population">
-        <mat-form-field class="vert-space-32">
-          <mat-label class="text-disabled-clr subtitle-1">Population1</mat-label>
-          <input matInput formControlName="population1" [attr.disabled]="selectedFields.population?null:''">
-        </mat-form-field>
-        <mat-form-field class="vert-space-32">
-          <mat-label class="text-disabled-clr subtitle-1">Population2</mat-label>
-          <input matInput formControlName="population2" [attr.disabled]="selectedFields.population?null:''">
-        </mat-form-field>
-      </div>
-      <div>
-        <input class="form-check-input filter__disable-checkbox" type="checkbox"
-               (change)="this.selectedFields.metersAboveSeaLevel = !this.selectedFields.metersAboveSeaLevel">
-        <mat-form-field class="vert-space-32">
-          <mat-label class="text-disabled-clr subtitle-1">Meters above sea level1</mat-label>
-          <input matInput formControlName="metersAboveSeaLevel1"
-                 [attr.disabled]="selectedFields.metersAboveSeaLevel?null:''">
-        </mat-form-field>
-        <mat-form-field class="vert-space-32">
-          <mat-label class="text-disabled-clr subtitle-1">Meters above sea level2</mat-label>
-          <input matInput formControlName="metersAboveSeaLevel2"
-                 [attr.disabled]="selectedFields.metersAboveSeaLevel?null:''">
-        </mat-form-field>
-      </div>
-      <div>
-        <input class="form-check-input filter__disable-checkbox" type="checkbox"
-               (change)="this.selectedFields.timezone = !this.selectedFields.timezone">
+<div class="filter-and-sort-form">
+  <div class="enums">
+    <h2></h2>
+    <form [formGroup]="governmentCheckboxGroup" style="margin: 0px 5px">
+      <section>
+        <mat-label><mat-checkbox class="enums__disable-checkbox" type="checkbox"
+                                 (change)="changeEnumFormState('government')"></mat-checkbox>Government:</mat-label>
+        <p>
+          <mat-checkbox formControlName="CORPORATOCRACY">CORPORATOCRACY
+          </mat-checkbox>
+        </p>
+        <p>
+          <mat-checkbox formControlName="PUPPET_STATE">PUPPET_STATE
+          </mat-checkbox>
+        </p>
+        <p>
+          <mat-checkbox formControlName="NOOCRACY">NOOCRACY</mat-checkbox>
+        </p>
+        <p>
+          <mat-checkbox formControlName="TELLUROCRACY">TELLUROCRACY
+          </mat-checkbox>
+        </p>
+      </section>
+    </form>
 
-        <mat-form-field class="vert-space-32">
-          <mat-label class="text-disabled-clr subtitle-1">Timezone1</mat-label>
-          <input matInput formControlName="timezone1" [attr.disabled]="selectedFields.timezone?null:''">
-        </mat-form-field>
-        <mat-form-field class="vert-space-32">
-          <mat-label class="text-disabled-clr subtitle-1">Timezone2</mat-label>
-          <input matInput formControlName="timezone2" [attr.disabled]="selectedFields.timezone?null:''">
-        </mat-form-field>
-      </div>
-    </div>
-    <div style="margin-top: 90px">
-      <div class="enums">
-        <div style="margin-left: 90px">
-          <section>
-            <h4>Government: <input class="form-check-input enums__disable-checkbox" type="checkbox"
-                                   (change)="this.selectedFields.government = !this.selectedFields.government"></h4>
-            <p>
-              <mat-checkbox formControlName="CORPORATOCRACY" [disabled]="!selectedFields.government">CORPORATOCRACY
-              </mat-checkbox>
-            </p>
-            <p>
-              <mat-checkbox formControlName="PUPPET_STATE" [disabled]="!selectedFields.government">PUPPET_STATE
-              </mat-checkbox>
-            </p>
-            <p>
-              <mat-checkbox formControlName="NOOCRACY" [disabled]="!selectedFields.government">NOOCRACY</mat-checkbox>
-            </p>
-            <p>
-              <mat-checkbox formControlName="TELLUROCRACY" [disabled]="!selectedFields.government">TELLUROCRACY
-              </mat-checkbox>
-            </p>
-          </section>
-        </div>
-        <div style="margin-right: 90px">
-          <section>
-            <h4>Standard of living: <input class="form-check-input enums__disable-checkbox" type="checkbox"
-                                           (change)="this.selectedFields.standardOfLiving = !this.selectedFields.standardOfLiving">
-            </h4>
-            <p>
-              <mat-checkbox formControlName="ULTRA_HIGH" [disabled]="!selectedFields.standardOfLiving">ULTRA_HIGH
-              </mat-checkbox>
-            </p>
-            <p>
-              <mat-checkbox formControlName="HIGH" [disabled]="!selectedFields.standardOfLiving">HIGH</mat-checkbox>
-            </p>
-            <p>
-              <mat-checkbox formControlName="MEDIUM" [disabled]="!selectedFields.standardOfLiving">MEDIUM</mat-checkbox>
-            </p>
-            <p>
-              <mat-checkbox formControlName="LOW" [disabled]="!selectedFields.standardOfLiving">LOW</mat-checkbox>
-            </p>
-          </section>
-        </div>
-      </div>
-      <div>
-        <input class="form-check-input filter__disable-checkbox" type="checkbox"
-               (change)="this.selectedFields.height = !this.selectedFields.height">
-
-        <mat-form-field class="vert-space-32">
-          <mat-label class="text-disabled-clr subtitle-1">Height1</mat-label>
-          <input matInput formControlName="height1" [attr.disabled]="selectedFields.height?null:''">
-        </mat-form-field>
-        <mat-form-field class="vert-space-32">
-          <mat-label class="text-disabled-clr subtitle-1">Height2</mat-label>
-          <input matInput formControlName="height2" [attr.disabled]="selectedFields.height?null:''">
-        </mat-form-field>
-      </div>
-      <div>
-        <input class="form-check-input filter__disable-checkbox" type="checkbox"
-               (change)="this.selectedFields.birthdayDate = !this.selectedFields.birthdayDate">
-        <mat-form-field>
-          <mat-label>Birthday Date1</mat-label>
-          <input matInput readonly formControlName="birthdayDate1" [matDatepicker]="dp1"
-                 [attr.disabled]="selectedFields.birthdayDate?null:''">
-          <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
-          <mat-datepicker #dp1></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Birthday Date1</mat-label>
-          <input matInput readonly formControlName="birthdayDate2" [matDatepicker]="dp2"
-                 [attr.disabled]="selectedFields.birthdayDate?null:''">
-          <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
-          <mat-datepicker #dp2></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div>
-        <input class="form-check-input filter__disable-checkbox" type="checkbox"
-               (change)="this.selectedFields.birthdayTime = !this.selectedFields.birthdayTime">
-
-        <mat-form-field>
-          <mat-label>Birthday Time1</mat-label>
-          <input matInput formControlName="birthdayTime1" [ngxTimepicker]="birthday_time1" [format]="24"
-                 [attr.disabled]="selectedFields.birthdayTime?null:''" readonly>
-          <ngx-material-timepicker #birthday_time1 [enableKeyboardInput]="true"></ngx-material-timepicker>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Birthday Time2</mat-label>
-          <input matInput formControlName="birthdayTime2" [ngxTimepicker]="birthday_time2" [format]="24"
-                 [attr.disabled]="selectedFields.birthdayTime?null:''" readonly>
-          <ngx-material-timepicker #birthday_time2 [enableKeyboardInput]="true"></ngx-material-timepicker>
-        </mat-form-field>
-      </div>
-    </div>
+    <form [formGroup]="standardOfLivingCheckboxGroup">
+      <section>
+        <mat-label><mat-checkbox class="enums__disable-checkbox" type="checkbox"
+                                 (change)="changeEnumFormState('standardOfLiving')"></mat-checkbox>
+          Standard of living:
+        </mat-label>
+        <p>
+          <mat-checkbox formControlName="ULTRA_HIGH">ULTRA_HIGH
+          </mat-checkbox>
+        </p>
+        <p>
+          <mat-checkbox formControlName="HIGH">HIGH</mat-checkbox>
+        </p>
+        <p>
+          <mat-checkbox formControlName="MEDIUM">MEDIUM</mat-checkbox>
+        </p>
+        <p>
+          <mat-checkbox formControlName="LOW">LOW</mat-checkbox>
+        </p>
+      </section>
+    </form>
   </div>
+  <form [formGroup]="cityFilterAndSortForm" class="filter-and-sort-form">
+    <div class="filter">
+      <div>
+        <h2 style="text-align: center;">Filter</h2>
+        <input class="filter__disable-checkbox" type="checkbox"
+               (change)="this.selectedFields.name = !this.selectedFields.name">
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" [attr.disabled]="selectedFields.name?null:''">
+        </mat-form-field>
+        <div>
+          <input class="filter__disable-checkbox" type="checkbox"
+                 (change)="this.selectedFields.x = !this.selectedFields.x">
+          <mat-form-field>
+            <mat-label>X1</mat-label>
+            <input matInput formControlName="x1" [attr.disabled]="selectedFields.x?null:''">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>X2</mat-label>
+            <input matInput formControlName="x2" [attr.disabled]="selectedFields.x?null:''">
+          </mat-form-field>
+        </div>
+        <div>
+          <input class="filter__disable-checkbox" type="checkbox"
+                 (change)="this.selectedFields.y = !this.selectedFields.y">
+          <mat-form-field>
+            <mat-label>Y1</mat-label>
+            <input matInput formControlName="y1" [attr.disabled]="selectedFields.y?null:''">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Y2</mat-label>
+            <input matInput formControlName="y2" [attr.disabled]="selectedFields.y?null:''">
+          </mat-form-field>
+        </div>
+        <div>
+          <input class="filter__disable-checkbox" type="checkbox"
+                 (change)="this.selectedFields.area = !this.selectedFields.area">
+          <mat-form-field>
+            <mat-label>Area1</mat-label>
+            <input matInput formControlName="area1" [attr.disabled]="selectedFields.area?null:''">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Area2</mat-label>
+            <input matInput formControlName="area2" [attr.disabled]="selectedFields.area?null:''">
+          </mat-form-field>
+        </div>
+        <div>
+          <input class="filter__disable-checkbox" type="checkbox"
+                 (change)="this.selectedFields.population = !this.selectedFields.population">
+          <mat-form-field>
+            <mat-label>Population1</mat-label>
+            <input matInput formControlName="population1" [attr.disabled]="selectedFields.population?null:''">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Population2</mat-label>
+            <input matInput formControlName="population2" [attr.disabled]="selectedFields.population?null:''">
+          </mat-form-field>
+        </div>
+        <div>
+          <input class="filter__disable-checkbox" type="checkbox"
+                 (change)="this.selectedFields.metersAboveSeaLevel = !this.selectedFields.metersAboveSeaLevel">
+          <mat-form-field>
+            <mat-label>Meters above sea level1</mat-label>
+            <input matInput formControlName="meters_above_sea_level1"
+                   [attr.disabled]="selectedFields.metersAboveSeaLevel?null:''">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Meters above sea level2</mat-label>
+            <input matInput formControlName="meters_above_sea_level2"
+                   [attr.disabled]="selectedFields.metersAboveSeaLevel?null:''">
+          </mat-form-field>
+        </div>
+        <div>
+          <input class="filter__disable-checkbox" type="checkbox"
+                 (change)="this.selectedFields.timezone = !this.selectedFields.timezone">
+
+          <mat-form-field>
+            <mat-label>Timezone1</mat-label>
+            <input matInput formControlName="timezone1" [attr.disabled]="selectedFields.timezone?null:''">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Timezone2</mat-label>
+            <input matInput formControlName="timezone2" [attr.disabled]="selectedFields.timezone?null:''">
+          </mat-form-field>
+        </div>
+      </div>
+      <div style="margin-top: 90px">
+        <div>
+          <input class="filter__disable-checkbox" type="checkbox"
+                 (change)="this.selectedFields.height = !this.selectedFields.height">
+
+          <mat-form-field>
+            <mat-label>Height1</mat-label>
+            <input matInput formControlName="height1" [attr.disabled]="selectedFields.height?null:''">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Height2</mat-label>
+            <input matInput formControlName="height2" [attr.disabled]="selectedFields.height?null:''">
+          </mat-form-field>
+        </div>
+        <div>
+          <input class="filter__disable-checkbox" type="checkbox"
+                 (change)="this.selectedFields.birthdayDate = !this.selectedFields.birthdayDate">
+          <mat-form-field>
+            <mat-label>Birthday Date1</mat-label>
+            <input matInput readonly formControlName="birthday1" [matDatepicker]="dp1">
+            <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+            <mat-datepicker #dp1 [disabled]="!selectedFields.birthdayDate"></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Birthday Date2</mat-label>
+            <input matInput readonly formControlName="birthday2" [matDatepicker]="dp2">
+            <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+            <mat-datepicker #dp2 [disabled]="!selectedFields.birthdayDate"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <!--      <div>-->
+        <!--        <input class="filter__disable-checkbox" type="checkbox"-->
+        <!--               (change)="this.selectedFields.birthdayTime = !this.selectedFields.birthdayTime">-->
+
+        <!--        <mat-form-field>-->
+        <!--          <mat-label>Birthday Time1</mat-label>-->
+        <!--          <input matInput formControlName="birthdayTime1" [ngxTimepicker]="birthday_time1" [format]="24"-->
+        <!--                 [attr.disabled]="selectedFields.birthdayTime?null:''" readonly>-->
+        <!--          <ngx-material-timepicker #birthday_time1 [enableKeyboardInput]="true"></ngx-material-timepicker>-->
+        <!--        </mat-form-field>-->
+        <!--        <mat-form-field>-->
+        <!--          <mat-label>Birthday Time2</mat-label>-->
+        <!--          <input matInput formControlName="birthdayTime2" [ngxTimepicker]="birthday_time2" [format]="24"-->
+        <!--                 [attr.disabled]="selectedFields.birthdayTime?null:''" readonly>-->
+        <!--          <ngx-material-timepicker #birthday_time2 [enableKeyboardInput]="true"></ngx-material-timepicker>-->
+        <!--        </mat-form-field>-->
+        <!--      </div>-->
+      </div>
+    </div>
     <div class="sort">
       <h2>Sort</h2>
       <label>Sort by</label>
@@ -193,8 +195,8 @@
       <label>Sort type</label>
       <mat-radio-group
         formControlName="sort_field">
-        <mat-radio-button class="sort__radio-btn" value="ASC" [checked]="true">ASC</mat-radio-button>
-        <mat-radio-button class="sort__radio-btn" value="DESC">DESC</mat-radio-button>
+        <mat-radio-button class="sort__radio-btn" value="asc" [checked]="true">ASC</mat-radio-button>
+        <mat-radio-button class="sort__radio-btn" value="desc">DESC</mat-radio-button>
       </mat-radio-group>
     </div>
     <div class="pagination">
@@ -209,11 +211,12 @@
       <mat-form-field>
         <mat-label>Selected Page</mat-label>
         <mat-select formControlName="page">
-          <!--      <mat-option *ngFor="let type of standardOfLivingTypes" [value]="type">{{type}}</mat-option>-->
+          <mat-option *ngFor="let i of pageIndexes" [value]="i">{{i}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <div class="">
+      <div class="submit_btn">
         <button mat-button (click)="submit()" class="btn cursor pointer">Submit</button>
       </div>
     </div>
-</form>
+  </form>
+</div>

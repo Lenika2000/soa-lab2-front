@@ -1,17 +1,25 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {PaginationResult} from '../../model/PaginationResult';
 
 @Component({
   selector: 'app-filter-and-sort-form',
   templateUrl: './filter-and-sort-form.component.html',
   styleUrls: ['./filter-and-sort-form.component.css']
 })
-export class FilterAndSortFormComponent implements OnInit {
+export class FilterAndSortFormComponent implements OnInit, OnChanges {
 
-  constructor() {
-  }
-
-  public fields = ['name', 'x', 'y', 'area', 'population', 'metersAboveSeaLevel', 'timezone', 'government', 'standardOfLiving', 'height', 'birthday'];
+  @Output() getCitiesEvent = new EventEmitter<any>();
+  @Input()  public paginationResult: PaginationResult = {
+    pageSize: 5,
+    pageIndex: 0,
+    totalItems: 0,
+    list: []
+  };
+  public pageIndexes = [1, 2];
+  public fields = ['name', 'x', 'y', 'area', 'population', 'meters_above_sea_level', 'timezone', 'government', 'standard_of_living', 'height', 'birthday'];
+  public governmentCheckboxGroup: FormGroup;
+  public standardOfLivingCheckboxGroup: FormGroup;
   public cityFilterAndSortForm: FormGroup;
   public selectedFields = {
     name: false,
@@ -29,6 +37,33 @@ export class FilterAndSortFormComponent implements OnInit {
   };
 
 
+  constructor(fb: FormBuilder) {
+    this.governmentCheckboxGroup = new FormGroup({
+      CORPORATOCRACY: new FormControl({value: '', disabled: true}),
+      PUPPET_STATE: new FormControl({value: '', disabled: true}),
+      NOOCRACY: new FormControl({value: '', disabled: true}),
+      TELLUROCRACY: new FormControl({value: '', disabled: true}),
+    });
+    this.standardOfLivingCheckboxGroup = new FormGroup({
+      ULTRA_HIGH: new FormControl({value: '', disabled: true}),
+      HIGH: new FormControl({value: '', disabled: true}),
+      MEDIUM: new FormControl({value: '', disabled: true}),
+      LOW: new FormControl({value: '', disabled: true}),
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+    this.pageIndexes = [];
+    const selectionItemsQuality = Math.ceil(this.paginationResult.totalItems / this.paginationResult.pageSize);
+    console.log(selectionItemsQuality);
+    console.log(this.paginationResult);
+    for (let i = 1; i <= selectionItemsQuality; i++) {
+      this.pageIndexes.push(i);
+    }
+    if (this.pageIndexes.length === 0) { this.pageIndexes.push(1); }
+  }
+
   ngOnInit(): void {
     this.cityFilterAndSortForm = new FormGroup({
       name: new FormControl({value: '', disabled: true}),
@@ -40,36 +75,83 @@ export class FilterAndSortFormComponent implements OnInit {
       area2: new FormControl({value: '', disabled: true}),
       population1: new FormControl({value: '', disabled: true}),
       population2: new FormControl({value: '', disabled: true}),
-      metersAboveSeaLevel1: new FormControl({value: '', disabled: true}),
-      metersAboveSeaLevel2: new FormControl({value: '', disabled: true}),
+      meters_above_sea_level1: new FormControl({value: '', disabled: true}),
+      meters_above_sea_level2: new FormControl({value: '', disabled: true}),
       timezone1: new FormControl({value: '', disabled: true}),
       timezone2: new FormControl({value: '', disabled: true}),
-      CORPORATOCRACY: new FormControl({value: '', disabled: true}),
-      PUPPET_STATE: new FormControl({value: '', disabled: true}),
-      NOOCRACY: new FormControl({value: '', disabled: true}),
-      TELLUROCRACY: new FormControl({value: '', disabled: true}),
-      ULTRA_HIGH: new FormControl({value: '', disabled: true}),
-      HIGH: new FormControl({value: '', disabled: true}),
-      MEDIUM: new FormControl({value: '', disabled: true}),
-      LOW: new FormControl({value: '', disabled: true}),
-      // government1: new FormControl(''),
-      // government2: new FormControl(''),
-      // standardOfLiving1: new FormControl(''),
-      // standardOfLiving2: new FormControl(''),
       height1: new FormControl({value: '', disabled: true}),
       height2: new FormControl({value: '', disabled: true}),
-      birthdayDate1: new FormControl({value: '', disabled: true}),
-      birthdayDate2: new FormControl({value: '', disabled: true}),
-      birthdayTime1: new FormControl({value: '', disabled: true}),
-      birthdayTime2: new FormControl({value: '', disabled: true}),
-      sort_field: new FormControl({value: ''}),
-      sort_type: new FormControl({value: ''}),
+      birthday1: new FormControl({value: '', disabled: true}),
+      birthday2: new FormControl({value: '', disabled: true}),
+      // birthdayTime1: new FormControl({value: '', disabled: true}),
+      // birthdayTime2: new FormControl({value: '', disabled: true}),
+      sort_field: new FormControl('id'),
+      sort_type: new FormControl('asc'),
       size: new FormControl('5'),
-      page: new FormControl({value: ''}),
+      page: new FormControl(1),
     });
   }
 
   submit(): void {
-
+    const filterData = {
+      sort: [this.cityFilterAndSortForm.get('sort_field').value + '_' + this.cityFilterAndSortForm.get('sort_type').value],
+      name: (!this.cityFilterAndSortForm.get('name').value || this.cityFilterAndSortForm.get('name').value === '' ) ? [] : this.cityFilterAndSortForm.get('name').value,
+      x:  this.getFilterParameter(this.cityFilterAndSortForm.get('x1').value, this.cityFilterAndSortForm.get('x2').value),
+      y: this.getFilterParameter(this.cityFilterAndSortForm.get('y1').value, this.cityFilterAndSortForm.get('y2').value),
+      area: this.getFilterParameter(this.cityFilterAndSortForm.get('area1').value, this.cityFilterAndSortForm.get('area2').value),
+      population: this.getFilterParameter(this.cityFilterAndSortForm.get('population1').value, this.cityFilterAndSortForm.get('population2').value),
+      meters_above_sea_level: this.getFilterParameter(this.cityFilterAndSortForm.get('meters_above_sea_level1').value, this.cityFilterAndSortForm.get('meters_above_sea_level2').value),
+      timezone: this.getFilterParameter(this.cityFilterAndSortForm.get('timezone1').value, this.cityFilterAndSortForm.get('timezone2').value),
+      standard_of_living: this.getCheckboxParameter(this.standardOfLivingCheckboxGroup),
+      government: this.getCheckboxParameter(this.governmentCheckboxGroup),
+      height: this.getFilterParameter(this.cityFilterAndSortForm.get('height1').value, this.cityFilterAndSortForm.get('height2').value),
+      birthday: this.getFilterParameter(this.cityFilterAndSortForm.get('birthday1').value, this.cityFilterAndSortForm.get('birthday2').value),
+      size: [this.cityFilterAndSortForm.get('size').value],
+      page: [this.cityFilterAndSortForm.get('page').value - 1],
+    };
+    this.getCitiesEvent.emit(filterData);
   }
+
+  getFilterParameter(a?: any, b?: any): any{
+    if (a === '' && b === '') {
+      return [];
+    }
+    if (a === '') {
+      return ['', b];
+    }
+    if (b === '') {
+      return [a, ''];
+    }
+    if (a === b) {
+      return a;
+    }
+    return [a, b];
+  }
+
+  getCheckboxParameter(checkboxGroup: FormGroup): string[]{
+    const arr = [];
+    for (const field in checkboxGroup.controls) {
+      if (checkboxGroup.get(field).value && !checkboxGroup.disabled) {
+        arr.push(field);
+      }
+    }
+    return arr;
+  }
+
+  changeEnumFormState(type: string): void {
+    if (type === 'government') {
+      this.selectedFields.government = !this.selectedFields.government;
+      this.selectedFields.government ? this.governmentCheckboxGroup.enable() : this.governmentCheckboxGroup.disable();
+    } else  {
+      this.selectedFields.standardOfLiving = !this.selectedFields.standardOfLiving;
+      this.selectedFields.standardOfLiving ? this.standardOfLivingCheckboxGroup.enable() : this.standardOfLivingCheckboxGroup.disable();
+    }
+  }
+
+  // onPaginatorPageChange(): void {
+  //   this.getCitiesEvent.emit(
+  //     {size: this.cityFilterAndSortForm.get('size'),
+  //       page: this.cityFilterAndSortForm.get('page')
+  //   });
+  // }
 }

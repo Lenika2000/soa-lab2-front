@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, Inject, Input, OnInit, Output, EventEmitter, AfterViewInit, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Government} from '../../model/Government';
 import {StandardOfLiving} from '../../model/StandardOfLiving';
@@ -6,23 +6,30 @@ import {City} from '../../model/City';
 import {Coordinates} from '../../model/Coordinates';
 import {Human} from '../../model/Human';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {takeUntil} from 'rxjs/operators';
+import {CityService} from '../../services/city.service';
+import {ReplaySubject} from 'rxjs';
+import {AddOrUpdateError} from '../../model/AddOrUpdateError';
 
 @Component({
   selector: 'app-add-or-update-city-form',
   templateUrl: './add-or-update-city-form.component.html',
   styleUrls: ['./add-or-update-city-form.component.css']
 })
-export class AddOrUpdateCityFormComponent implements OnInit {
+export class AddOrUpdateCityFormComponent implements OnInit, OnDestroy {
 
   @Input()
-  public governmentTypes: Government[] = ['CORPORATOCRACY' , 'PUPPET_STATE' , 'NOOCRACY' , 'TELLUROCRACY'];
-  public standardOfLivingTypes: StandardOfLiving[] = ['ULTRA_HIGH' , 'HIGH' , 'MEDIUM' , 'LOW'];
-
-  @Output() cityAdd = new EventEmitter<any>();
-  @Output() cityUpdate = new EventEmitter<any>();
+  public governmentTypes: Government[] = ['CORPORATOCRACY', 'PUPPET_STATE', 'NOOCRACY', 'TELLUROCRACY'];
+  public standardOfLivingTypes: StandardOfLiving[] = ['ULTRA_HIGH', 'HIGH', 'MEDIUM', 'LOW'];
+  public requestErrorsMap = new Map();
+  public requestErrors: AddOrUpdateError[] = [];
+  private onDestroy = new ReplaySubject(1);
+  @Output() getAllCities = new EventEmitter<any>();
 
   constructor(public confirmDialogRef: MatDialogRef<AddOrUpdateCityFormComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: CityWithOperationType) { }
+              @Inject(MAT_DIALOG_DATA) public data: CityWithOperationType,
+              private cityService: CityService) {
+  }
 
   public cityForm: FormGroup;
 
@@ -38,12 +45,17 @@ export class AddOrUpdateCityFormComponent implements OnInit {
       population: new FormControl(this.data.isAddOperation ? '' : this.data.city.population),
       metersAboveSeaLevel: new FormControl(this.data.isAddOperation ? '' : this.data.city.metersAboveSeaLevel),
       timezone: new FormControl(this.data.isAddOperation ? '' : this.data.city.timezone),
-      government: new FormControl(this.data.isAddOperation ? '' : this.data.city.government),
-      standardOfLiving: new FormControl(this.data.isAddOperation ? '' : this.data.city.standardOfLiving),
+      government: new FormControl(this.data.isAddOperation ? 'PUPPET_STATE' : this.data.city.government),
+      standardOfLiving: new FormControl(this.data.isAddOperation ? 'HIGH' : this.data.city.standardOfLiving),
       height: new FormControl(this.data.isAddOperation ? '' : this.data.city.governor.height),
-      birthdayDate: new FormControl(this.data.isAddOperation ? '' : this.data.city.governor.birthday),
-      birthdayTime: new FormControl(this.data.isAddOperation ? '' : this.data.city.governor.birthday.getHours() + ':' + this.data.city.governor.birthday.getMinutes()),
+      birthdayDate: new FormControl(this.data.isAddOperation ? new Date() : this.data.city.governor.birthday),
+      birthdayTime: new FormControl(this.data.isAddOperation ?  new Date().getHours() + ':' +  new Date().getMinutes() : this.data.city.governor.birthday.getHours() + ':' + this.data.city.governor.birthday.getMinutes()),
     });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next(1);
+    this.onDestroy.complete();
   }
 
   submit(): void {
@@ -65,8 +77,7 @@ export class AddOrUpdateCityFormComponent implements OnInit {
       this.cityForm.get('standardOfLiving').value,
       new Human(0, this.cityForm.get('height').value, this.getCorrectDate(this.cityForm.get('birthdayTime').value, this.cityForm.get('birthdayDate').value))
     );
-    this.data.isAddOperation ? this.cityAdd.emit(city) : this.cityUpdate.emit(city);
-    this.closeDialog();
+    this.data.isAddOperation ? this.addCity(city) : this.updateCity(city);
   }
 
   getCorrectDate(time: string, mainDate: Date): Date {
@@ -81,6 +92,36 @@ export class AddOrUpdateCityFormComponent implements OnInit {
       correctDate.setHours(Number(hours), Number(min));
       return correctDate;
     }
+  }
+
+  updateCity(updatedCity: City): void {
+    this.cityService.updateCity(updatedCity).pipe(
+      takeUntil(this.onDestroy)
+    ).subscribe(() => {
+      this.getAllCities.emit();
+      this.closeDialog();
+    }, (error: any) => {
+      this.requestErrors = error.error;
+      this.requestErrorsMap.clear();
+      this.requestErrors.forEach((err: AddOrUpdateError) => {
+        this.requestErrorsMap.set(err.name, err.desc);
+      });
+    });
+  }
+
+  addCity(newCity: City): void {
+    this.cityService.addCity(newCity).pipe(
+      takeUntil(this.onDestroy)
+    ).subscribe(() => {
+      this.getAllCities.emit();
+      this.closeDialog();
+    }, (error: any) => {
+      this.requestErrors = error.error;
+      this.requestErrorsMap.clear();
+      this.requestErrors.forEach((err: AddOrUpdateError) => {
+        this.requestErrorsMap.set(err.name, err.desc);
+      });
+    });
   }
 
   closeDialog(): void {
