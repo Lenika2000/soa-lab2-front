@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  testUrl: 'http://localhost:8081'
+  service1url: 'http://localhost:8081',
+  service2url: 'http://localhost:8082'
 };
 
 /*

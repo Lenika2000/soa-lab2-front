@@ -108,6 +108,9 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
       takeUntil(this.onDestroy)
     ).subscribe((cities: City[]) => {
       this.cities = cities;
+      if (this.cities.length === 0) {
+        this.snackBarService.openSnackBar('Cities not found');
+      }
     }, (error => {
       this.getFilterCitiesError(error);
     }));
@@ -118,7 +121,7 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
       this.cities = [];
       this.snackBarService.openSnackBar('Cities not found');
     } else {
-      this.snackBarService.openSnackBar(error);
+      this.snackBarService.openSnackBar(error.error.message);
     }
   }
 

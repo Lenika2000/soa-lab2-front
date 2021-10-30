@@ -21,61 +21,41 @@ export class CityService {
   }
 
   getCities(filterData: any): Observable<any> {
-    return this.http.get(`${environment.testUrl}/api/cities`, {headers: CityService.getHeaders(), params: filterData})
-      .pipe(
-        // tap(this.setToken),
-        // catchError(this.handleError.bind(this))
-      );
+    return this.http.get(`${environment.service1url}/api/cities`, {headers: CityService.getHeaders(), params: filterData});
   }
 
   addCity(city: City): Observable<any> {
     this.changeCityBeforeSend(city);
-    return this.http.post(`${environment.testUrl}/api/cities`, city)
-      .pipe(
-        // tap(this.setToken),
-        // catchError(this.handleError.bind(this))
-      );
+    return this.http.post(`${environment.service1url}/api/cities`, city);
   }
 
   updateCity(city: City): Observable<any> {
     this.changeCityBeforeSend(city);
-    return this.http.put(`${environment.testUrl}/api/cities/${city.id}`, city)
-      .pipe(
-        // tap(this.setToken),
-        // catchError(this.handleError.bind(this))
-      );
+    return this.http.put(`${environment.service1url}/api/cities/${city.id}`, city);
   }
 
   deleteCityById(id: number): Observable<any> {
-    return this.http.delete(`${environment.testUrl}/api/cities/${id}`)
-      .pipe(
-        // tap(this.setToken),
-        // catchError(this.handleError.bind(this))
-      );
+    return this.http.delete(`${environment.service1url}/api/cities/${id}`);
   }
 
   getCitiesByName(name: string): Observable<any> {
-    return this.http.get(`${environment.testUrl}/api/cities?name=${name}`)
-      .pipe(
-        // tap(this.setToken),
-        // catchError(this.handleError.bind(this))
-      );
+    return this.http.get(`${environment.service1url}/api/cities?name=${name}`);
   }
 
   getCitiesByMetersAboveSeaLevel(meters: number): Observable<any> {
-    return this.http.get(`${environment.testUrl}/api/cities?meters-above-sea-level=${meters}`)
-      .pipe(
-        // tap(this.setToken),
-        // catchError(this.handleError.bind(this))
-      );
+    return this.http.get(`${environment.service1url}/api/cities?meters-above-sea-level=${meters}`);
   }
 
   getUniqueMetersAboveSeaLevel(): Observable<any> {
-    return this.http.get(`${environment.testUrl}/api/cities/meters-above-sea-level`)
-      .pipe(
-        // tap(this.setToken),
-        // catchError(this.handleError.bind(this))
-      );
+    return this.http.get(`${environment.service1url}/api/cities/meters-above-sea-level`);
+  }
+
+  calculateToLargest(name: string): Observable<any> {
+    return this.http.get(`${environment.service2url}/api/route/calculate/to-largest?from=${name}`);
+  }
+
+  calculateToMinPopulated(): Observable<any> {
+    return this.http.get(`${environment.service2url}/api/route/calculate/to-min-populated`);
   }
 
   changeCityBeforeSend(city: City): void {

@@ -37,7 +37,7 @@ export class FilterAndSortFormComponent implements OnInit, OnChanges {
   };
 
 
-  constructor(fb: FormBuilder) {
+  constructor() {
     this.governmentCheckboxGroup = new FormGroup({
       CORPORATOCRACY: new FormControl({value: '', disabled: true}),
       PUPPET_STATE: new FormControl({value: '', disabled: true}),
@@ -53,15 +53,7 @@ export class FilterAndSortFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-    this.pageIndexes = [];
-    const selectionItemsQuality = Math.ceil(this.paginationResult.totalItems / this.paginationResult.pageSize);
-    console.log(selectionItemsQuality);
-    console.log(this.paginationResult);
-    for (let i = 1; i <= selectionItemsQuality; i++) {
-      this.pageIndexes.push(i);
-    }
-    if (this.pageIndexes.length === 0) { this.pageIndexes.push(1); }
+    this.changeRangeOfPageIndexes(this.paginationResult.totalItems, this.paginationResult.pageSize);
   }
 
   ngOnInit(): void {
@@ -148,10 +140,16 @@ export class FilterAndSortFormComponent implements OnInit, OnChanges {
     }
   }
 
-  // onPaginatorPageChange(): void {
-  //   this.getCitiesEvent.emit(
-  //     {size: this.cityFilterAndSortForm.get('size'),
-  //       page: this.cityFilterAndSortForm.get('page')
-  //   });
-  // }
+  changeRangeOfPageIndexes(totalItems: number, pageSize: number): void {
+    this.pageIndexes = [];
+    const selectionItemsQuality = Math.ceil(totalItems / pageSize);
+    for (let i = 1; i <= selectionItemsQuality; i++) {
+      this.pageIndexes.push(i);
+    }
+    if (this.pageIndexes.length === 0) { this.pageIndexes.push(1); }
+  }
+
+  onPaginatorPageSizeChange(): void {
+    this.changeRangeOfPageIndexes(this.paginationResult.totalItems, this.cityFilterAndSortForm.get('size').value);
+  }
 }

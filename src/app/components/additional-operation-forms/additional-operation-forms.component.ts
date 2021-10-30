@@ -19,9 +19,11 @@ export class AdditionalOperationFormsComponent implements OnInit {
   public cityNameForm = new FormGroup({
     name: new FormControl('')
   });
-
   public metersAboveSeaLevelFilterForm = new FormGroup({
     metersAboveSeaLevel: new FormControl('')
+  });
+  public cityNameWithMaxAreaForm = new FormGroup({
+    name: new FormControl('')
   });
 
   constructor(private cityService: CityService,
@@ -53,4 +55,23 @@ export class AdditionalOperationFormsComponent implements OnInit {
       });
   }
 
+  calculateToLargest(): void {
+    this.cityService.calculateToLargest(this.cityNameWithMaxAreaForm.get('name').value)
+      .subscribe((routeData: RouteData) => {
+        this.routeLengthToCityWithMaxArea = routeData;
+      }, error => {
+        this.routeLengthToCityWithMaxArea = undefined;
+        this.snackBarService.openSnackBar(error.error.message);
+      });
+  }
+
+  calculateToMinPopulated(): void {
+    this.cityService.calculateToMinPopulated()
+      .subscribe((routeData: RouteData) => {
+        this.routeLengthToCityWithMinPopulation = routeData;
+      }, error => {
+        this.routeLengthToCityWithMinPopulation = undefined;
+        this.snackBarService.openSnackBar(error.error.message);
+      });
+  }
 }

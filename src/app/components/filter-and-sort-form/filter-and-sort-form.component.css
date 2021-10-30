@@ -19,18 +19,22 @@
   margin-top: 48px;
 }
 
-.enums {
-  margin-top: 68px;
-}
-
 .filter {
   display: flex;
   flex-direction: row;
+  margin-right: 30px;
 }
 
 .enums {
-  display: flex;
-  justify-content: space-between;
+  margin-top: -45px;
+  margin-right: 30px;
+  display: grid;
+}
+
+.enums__disable-checkbox {
+  margin-right: 4px;
+  position: relative;
+  top: -3px;
 }
 
 .sort__radio-btn {
@@ -41,10 +45,6 @@
   margin-right: 15px;
   position: relative;
   bottom: 4px;
-}
-
-.enums__disable-checkbox {
-
 }
 
 .mat-form-field {

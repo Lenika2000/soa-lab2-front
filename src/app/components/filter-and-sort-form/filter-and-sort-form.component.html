@@ -1,10 +1,15 @@
 <div class="filter-and-sort-form">
   <div class="enums">
     <h2></h2>
-    <form [formGroup]="governmentCheckboxGroup" style="margin: 0px 5px">
+    <form [formGroup]="governmentCheckboxGroup">
       <section>
-        <mat-label><mat-checkbox class="enums__disable-checkbox" type="checkbox"
-                                 (change)="changeEnumFormState('government')"></mat-checkbox>Government:</mat-label>
+        <mat-label>
+          <p>
+          <mat-checkbox class="enums__disable-checkbox" type="checkbox"
+                        (change)="changeEnumFormState('government')"></mat-checkbox>
+          Government:
+          </p>
+        </mat-label>
         <p>
           <mat-checkbox formControlName="CORPORATOCRACY">CORPORATOCRACY
           </mat-checkbox>
@@ -23,11 +28,14 @@
       </section>
     </form>
 
-    <form [formGroup]="standardOfLivingCheckboxGroup">
+    <form [formGroup]="standardOfLivingCheckboxGroup" style="margin-top: -60px">
       <section>
-        <mat-label><mat-checkbox class="enums__disable-checkbox" type="checkbox"
-                                 (change)="changeEnumFormState('standardOfLiving')"></mat-checkbox>
-          Standard of living:
+        <mat-label>
+          <p>
+          <mat-checkbox class="enums__disable-checkbox" type="checkbox"
+                        (change)="changeEnumFormState('standardOfLiving')"></mat-checkbox>
+          Standard Of Living:
+          </p>
         </mat-label>
         <p>
           <mat-checkbox formControlName="ULTRA_HIGH">ULTRA_HIGH
@@ -83,11 +91,11 @@
           <input class="filter__disable-checkbox" type="checkbox"
                  (change)="this.selectedFields.area = !this.selectedFields.area">
           <mat-form-field>
-            <mat-label>Area1</mat-label>
+            <mat-label>Area 1</mat-label>
             <input matInput formControlName="area1" [attr.disabled]="selectedFields.area?null:''">
           </mat-form-field>
           <mat-form-field>
-            <mat-label>Area2</mat-label>
+            <mat-label>Area 2</mat-label>
             <input matInput formControlName="area2" [attr.disabled]="selectedFields.area?null:''">
           </mat-form-field>
         </div>
@@ -95,11 +103,11 @@
           <input class="filter__disable-checkbox" type="checkbox"
                  (change)="this.selectedFields.population = !this.selectedFields.population">
           <mat-form-field>
-            <mat-label>Population1</mat-label>
+            <mat-label>Population 1</mat-label>
             <input matInput formControlName="population1" [attr.disabled]="selectedFields.population?null:''">
           </mat-form-field>
           <mat-form-field>
-            <mat-label>Population2</mat-label>
+            <mat-label>Population 2</mat-label>
             <input matInput formControlName="population2" [attr.disabled]="selectedFields.population?null:''">
           </mat-form-field>
         </div>
@@ -107,12 +115,12 @@
           <input class="filter__disable-checkbox" type="checkbox"
                  (change)="this.selectedFields.metersAboveSeaLevel = !this.selectedFields.metersAboveSeaLevel">
           <mat-form-field>
-            <mat-label>Meters above sea level1</mat-label>
+            <mat-label>Meters Above Sea Level 1</mat-label>
             <input matInput formControlName="meters_above_sea_level1"
                    [attr.disabled]="selectedFields.metersAboveSeaLevel?null:''">
           </mat-form-field>
           <mat-form-field>
-            <mat-label>Meters above sea level2</mat-label>
+            <mat-label>Meters Above Sea Level 2</mat-label>
             <input matInput formControlName="meters_above_sea_level2"
                    [attr.disabled]="selectedFields.metersAboveSeaLevel?null:''">
           </mat-form-field>
@@ -122,26 +130,26 @@
                  (change)="this.selectedFields.timezone = !this.selectedFields.timezone">
 
           <mat-form-field>
-            <mat-label>Timezone1</mat-label>
+            <mat-label>Timezone 1</mat-label>
             <input matInput formControlName="timezone1" [attr.disabled]="selectedFields.timezone?null:''">
           </mat-form-field>
           <mat-form-field>
-            <mat-label>Timezone2</mat-label>
+            <mat-label>Timezone 2</mat-label>
             <input matInput formControlName="timezone2" [attr.disabled]="selectedFields.timezone?null:''">
           </mat-form-field>
         </div>
       </div>
-      <div style="margin-top: 90px">
+      <div style="margin-top: 108px">
         <div>
           <input class="filter__disable-checkbox" type="checkbox"
                  (change)="this.selectedFields.height = !this.selectedFields.height">
 
           <mat-form-field>
-            <mat-label>Height1</mat-label>
+            <mat-label>Height 1</mat-label>
             <input matInput formControlName="height1" [attr.disabled]="selectedFields.height?null:''">
           </mat-form-field>
           <mat-form-field>
-            <mat-label>Height2</mat-label>
+            <mat-label>Height 2</mat-label>
             <input matInput formControlName="height2" [attr.disabled]="selectedFields.height?null:''">
           </mat-form-field>
         </div>
@@ -149,13 +157,13 @@
           <input class="filter__disable-checkbox" type="checkbox"
                  (change)="this.selectedFields.birthdayDate = !this.selectedFields.birthdayDate">
           <mat-form-field>
-            <mat-label>Birthday Date1</mat-label>
+            <mat-label>Birthday Date 1</mat-label>
             <input matInput readonly formControlName="birthday1" [matDatepicker]="dp1">
             <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
             <mat-datepicker #dp1 [disabled]="!selectedFields.birthdayDate"></mat-datepicker>
           </mat-form-field>
           <mat-form-field>
-            <mat-label>Birthday Date2</mat-label>
+            <mat-label>Birthday Date 2</mat-label>
             <input matInput readonly formControlName="birthday2" [matDatepicker]="dp2">
             <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
             <mat-datepicker #dp2 [disabled]="!selectedFields.birthdayDate"></mat-datepicker>
@@ -180,7 +188,7 @@
         <!--      </div>-->
       </div>
     </div>
-    <div class="sort">
+    <div class="sort" style="margin-right: 10px">
       <h2>Sort</h2>
       <label>Sort by</label>
       <mat-radio-group
@@ -194,7 +202,7 @@
       </mat-radio-group>
       <label>Sort type</label>
       <mat-radio-group
-        formControlName="sort_field">
+        formControlName="sort_type">
         <mat-radio-button class="sort__radio-btn" value="asc" [checked]="true">ASC</mat-radio-button>
         <mat-radio-button class="sort__radio-btn" value="desc">DESC</mat-radio-button>
       </mat-radio-group>
@@ -202,7 +210,7 @@
     <div class="pagination">
       <mat-form-field>
         <mat-label>Items per page</mat-label>
-        <mat-select formControlName="size">
+        <mat-select formControlName="size" (change)="onPaginatorPageSizeChange()">
           <mat-option value="5">5</mat-option>
           <mat-option value="10">10</mat-option>
           <mat-option value="15">15</mat-option>
