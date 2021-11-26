@@ -33,7 +33,6 @@ export class FilterAndSortFormComponent implements OnInit, OnChanges {
     standardOfLiving: false,
     height: false,
     birthdayDate: false,
-    birthdayTime: false
   };
 
 
@@ -75,8 +74,6 @@ export class FilterAndSortFormComponent implements OnInit, OnChanges {
       height2: new FormControl({value: '', disabled: true}),
       birthday1: new FormControl({value: '', disabled: true}),
       birthday2: new FormControl({value: '', disabled: true}),
-      // birthdayTime1: new FormControl({value: '', disabled: true}),
-      // birthdayTime2: new FormControl({value: '', disabled: true}),
       sort_field: new FormControl('id'),
       sort_type: new FormControl('asc'),
       size: new FormControl('5'),
@@ -87,47 +84,56 @@ export class FilterAndSortFormComponent implements OnInit, OnChanges {
   submit(): void {
     const filterData = {
       sort: [this.cityFilterAndSortForm.get('sort_field').value + '_' + this.cityFilterAndSortForm.get('sort_type').value],
-      name: (!this.cityFilterAndSortForm.get('name').value || this.cityFilterAndSortForm.get('name').value === '' ) ? [] : this.cityFilterAndSortForm.get('name').value,
-      x:  this.getFilterParameter(this.cityFilterAndSortForm.get('x1').value, this.cityFilterAndSortForm.get('x2').value),
-      y: this.getFilterParameter(this.cityFilterAndSortForm.get('y1').value, this.cityFilterAndSortForm.get('y2').value),
-      area: this.getFilterParameter(this.cityFilterAndSortForm.get('area1').value, this.cityFilterAndSortForm.get('area2').value),
-      population: this.getFilterParameter(this.cityFilterAndSortForm.get('population1').value, this.cityFilterAndSortForm.get('population2').value),
-      meters_above_sea_level: this.getFilterParameter(this.cityFilterAndSortForm.get('meters_above_sea_level1').value, this.cityFilterAndSortForm.get('meters_above_sea_level2').value),
-      timezone: this.getFilterParameter(this.cityFilterAndSortForm.get('timezone1').value, this.cityFilterAndSortForm.get('timezone2').value),
-      standard_of_living: this.getCheckboxParameter(this.standardOfLivingCheckboxGroup),
-      government: this.getCheckboxParameter(this.governmentCheckboxGroup),
-      height: this.getFilterParameter(this.cityFilterAndSortForm.get('height1').value, this.cityFilterAndSortForm.get('height2').value),
-      birthday: this.getFilterParameter(this.cityFilterAndSortForm.get('birthday1').value, this.cityFilterAndSortForm.get('birthday2').value),
+      name: (!this.cityFilterAndSortForm.get('name').value || this.cityFilterAndSortForm.get('name').value === '' || !this.selectedFields.name ) ? [] : [this.cityFilterAndSortForm.get('name').value],
+      x:  this.getFilterParameter(this.selectedFields.x, 'x', this.cityFilterAndSortForm.get('x1').value, this.cityFilterAndSortForm.get('x2').value),
+      y: this.getFilterParameter(this.selectedFields.y, 'y', this.cityFilterAndSortForm.get('y1').value, this.cityFilterAndSortForm.get('y2').value),
+      area: this.getFilterParameter(this.selectedFields.area, 'area', this.cityFilterAndSortForm.get('area1').value, this.cityFilterAndSortForm.get('area2').value),
+      population: this.getFilterParameter(this.selectedFields.population, 'population', this.cityFilterAndSortForm.get('population1').value, this.cityFilterAndSortForm.get('population2').value),
+      meters_above_sea_level: this.getFilterParameter(this.selectedFields.metersAboveSeaLevel, 'meters_above_sea_level', this.cityFilterAndSortForm.get('meters_above_sea_level1').value, this.cityFilterAndSortForm.get('meters_above_sea_level2').value),
+      timezone: this.getFilterParameter(this.selectedFields.timezone, 'timezone', this.cityFilterAndSortForm.get('timezone1').value, this.cityFilterAndSortForm.get('timezone2').value),
+      standard_of_living: this.getCheckboxParameter(this.selectedFields.standardOfLiving, this.standardOfLivingCheckboxGroup),
+      government: this.getCheckboxParameter(this.selectedFields.government, this.governmentCheckboxGroup),
+      height: this.getFilterParameter(this.selectedFields.height, 'height', this.cityFilterAndSortForm.get('height1').value, this.cityFilterAndSortForm.get('height2').value),
+      birthday: this.getFilterParameter(this.selectedFields.birthdayDate, 'birthday', this.cityFilterAndSortForm.get('birthday1').value, this.cityFilterAndSortForm.get('birthday2').value),
       size: [this.cityFilterAndSortForm.get('size').value],
       page: [this.cityFilterAndSortForm.get('page').value - 1],
     };
+    console.log(filterData);
     this.getCitiesEvent.emit(filterData);
   }
 
-  getFilterParameter(a?: any, b?: any): any{
-    if (a === '' && b === '') {
+  getFilterParameter(isFieldSelect: boolean, fieldName: string, a?: any, b?: any, ): any{
+    if (!isFieldSelect) {
       return [];
-    }
-    if (a === '') {
-      return ['', b];
-    }
-    if (b === '') {
-      return [a, ''];
-    }
-    if (a === b) {
-      return a;
+    } else {
+      if (a === '' && b === '') {
+        return [];
+      }
+      if (a === '') {
+        return ['', b];
+      }
+      if (b === '') {
+        return [a, ''];
+      }
+      if (a === b) {
+        return a;
+      }
     }
     return [a, b];
   }
 
-  getCheckboxParameter(checkboxGroup: FormGroup): string[]{
-    const arr = [];
-    for (const field in checkboxGroup.controls) {
-      if (checkboxGroup.get(field).value && !checkboxGroup.disabled) {
-        arr.push(field);
+  getCheckboxParameter(isFieldSelect: boolean, checkboxGroup: FormGroup): string[]{
+    if (!isFieldSelect) {
+      return [];
+    } else {
+      const arr = [];
+      for (const field in checkboxGroup.controls) {
+        if (checkboxGroup.get(field).value && !checkboxGroup.disabled) {
+          arr.push(field);
+        }
       }
+      return arr;
     }
-    return arr;
   }
 
   changeEnumFormState(type: string): void {

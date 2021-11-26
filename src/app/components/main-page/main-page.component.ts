@@ -82,7 +82,10 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
     ).subscribe((paginationResults: PaginationResult) => {
       this.paginationResult = paginationResults;
       this.cities = paginationResults.list;
-      // todo change size and selectedPage
+      if (this.cities.length === 0) {
+        this.snackBarService.openSnackBar('Cities not found');
+        this.cities = [];
+      }
     }, (error => {
       this.snackBarService.openSnackBar(error);
     }));

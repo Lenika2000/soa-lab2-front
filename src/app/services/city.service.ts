@@ -21,41 +21,41 @@ export class CityService {
   }
 
   getCities(filterData: any): Observable<any> {
-    return this.http.get(`${environment.service1url}/api/cities`, {headers: CityService.getHeaders(), params: filterData});
+    return this.http.get(`${environment.service1url}api/cities`, {headers: CityService.getHeaders(), params: filterData});
   }
 
   addCity(city: City): Observable<any> {
     this.changeCityBeforeSend(city);
-    return this.http.post(`${environment.service1url}/api/cities`, city);
+    return this.http.post(`${environment.service1url}api/cities`, city);
   }
 
   updateCity(city: City): Observable<any> {
     this.changeCityBeforeSend(city);
-    return this.http.put(`${environment.service1url}/api/cities/${city.id}`, city);
+    return this.http.put(`${environment.service1url}api/cities/${city.id}`, city);
   }
 
   deleteCityById(id: number): Observable<any> {
-    return this.http.delete(`${environment.service1url}/api/cities/${id}`);
+    return this.http.delete(`${environment.service1url}api/cities/${id}`);
   }
 
   getCitiesByName(name: string): Observable<any> {
-    return this.http.get(`${environment.service1url}/api/cities?name=${name}`);
+    return this.http.get(`${environment.service1url}api/cities?name=${name}`);
   }
 
   getCitiesByMetersAboveSeaLevel(meters: number): Observable<any> {
-    return this.http.get(`${environment.service1url}/api/cities?meters-above-sea-level=${meters}`);
+    return this.http.get(`${environment.service1url}api/cities?meters-above-sea-level=${meters}`);
   }
 
   getUniqueMetersAboveSeaLevel(): Observable<any> {
-    return this.http.get(`${environment.service1url}/api/cities/meters-above-sea-level`);
+    return this.http.get(`${environment.service1url}api/cities/meters-above-sea-level`);
   }
 
   calculateToLargest(name: string): Observable<any> {
-    return this.http.get(`${environment.service2url}/api/route/calculate/to-largest?from=${name}`);
+    return this.http.get(`${environment.service2url}api/route/calculate/to-largest?from=${name}`);
   }
 
   calculateToMinPopulated(): Observable<any> {
-    return this.http.get(`${environment.service2url}/api/route/calculate/to-min-populated`);
+    return this.http.get(`${environment.service2url}api/route/calculate/to-min-populated`);
   }
 
   changeCityBeforeSend(city: City): void {

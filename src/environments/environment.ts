@@ -4,8 +4,10 @@
 
 export const environment = {
   production: false,
-  service1url: 'http://localhost:8081',
-  service2url: 'http://localhost:8082'
+  service1url: 'http://localhost:8081/',
+  service2url: 'http://localhost:8082/'
+  // service1url: '',
+  // service2url: 'https://localhost:27443/soa-lab2/'
 };
 
 /*
