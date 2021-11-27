@@ -39,7 +39,7 @@ export class CityService {
   }
 
   getCitiesByName(name: string): Observable<any> {
-    return this.http.get(`${environment.service1url}api/cities?name=${name}`);
+    return this.http.get(`${environment.service1url}api/cities?byname=${name}`);
   }
 
   getCitiesByMetersAboveSeaLevel(meters: number): Observable<any> {
