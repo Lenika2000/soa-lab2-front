@@ -48,9 +48,7 @@ export class AdditionalOperationFormsComponent implements OnInit {
       }, error => {
         if (error.status === 404) {
           this.uniqueMetersAboveSeaLevel = [];
-          this.snackBarService.openSnackBar('Unique Meters Above Sea Level not found');
-        } else {
-          this.snackBarService.openSnackBar(error);
+          this.snackBarService.openSnackBar(error.error.message);
         }
       });
   }

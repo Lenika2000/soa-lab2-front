@@ -1,16 +1,16 @@
 <div class="additional-operations">
-  <div class="col">
-    <form [formGroup]="cityNameForm">
-      <p>Get cities by name</p>
-      <mat-form-field>
-        <mat-label>Name</mat-label>
-        <input matInput formControlName="name">
-      </mat-form-field>
-      <button mat-button (click)="getCitiesByName()"
-              [disabled]="cityNameForm.invalid" class="btn cursor pointer">Find
-      </button>
-    </form>
-  </div>
+<!--  <div class="col">-->
+<!--    <form [formGroup]="cityNameForm">-->
+<!--      <p>Get cities by name</p>-->
+<!--      <mat-form-field>-->
+<!--        <mat-label>Name</mat-label>-->
+<!--        <input matInput formControlName="name">-->
+<!--      </mat-form-field>-->
+<!--      <button mat-button (click)="getCitiesByName()"-->
+<!--              [disabled]="cityNameForm.invalid" class="btn cursor pointer">Find-->
+<!--      </button>-->
+<!--    </form>-->
+<!--  </div>-->
   <div class="col">
     <form [formGroup]="metersAboveSeaLevelFilterForm">
       <p>Get cities with meters above sea level more than: </p>

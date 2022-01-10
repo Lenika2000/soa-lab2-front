@@ -1,5 +1,5 @@
 import {Component, Inject, Input, OnInit, Output, EventEmitter, AfterViewInit, OnDestroy} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Government} from '../../model/Government';
 import {StandardOfLiving} from '../../model/StandardOfLiving';
 import {City} from '../../model/City';
@@ -38,16 +38,16 @@ export class AddOrUpdateCityFormComponent implements OnInit, OnDestroy {
       this.data.city.governor.birthday = new Date(this.data.city.governor.birthday);
     }
     this.cityForm = new FormGroup({
-      name: new FormControl(this.data.isAddOperation ? '' : this.data.city.name),
-      x: new FormControl(this.data.isAddOperation ? '' : this.data.city.coordinates.x),
-      y: new FormControl(this.data.isAddOperation ? '' : this.data.city.coordinates.y),
-      area: new FormControl(this.data.isAddOperation ? '' : this.data.city.area),
-      population: new FormControl(this.data.isAddOperation ? '' : this.data.city.population),
-      metersAboveSeaLevel: new FormControl(this.data.isAddOperation ? '' : this.data.city.metersAboveSeaLevel),
-      timezone: new FormControl(this.data.isAddOperation ? '' : this.data.city.timezone),
+      name: new FormControl(this.data.isAddOperation ? '' : this.data.city.name, Validators.required),
+      x: new FormControl(this.data.isAddOperation ? '' : this.data.city.coordinates.x, Validators.required),
+      y: new FormControl(this.data.isAddOperation ? '' : this.data.city.coordinates.y, Validators.required),
+      area: new FormControl(this.data.isAddOperation ? '' : this.data.city.area, Validators.required),
+      population: new FormControl(this.data.isAddOperation ? '' : this.data.city.population, Validators.required),
+      metersAboveSeaLevel: new FormControl(this.data.isAddOperation ? '' : this.data.city.metersAboveSeaLevel, Validators.required),
+      timezone: new FormControl(this.data.isAddOperation ? '' : this.data.city.timezone, Validators.required),
       government: new FormControl(this.data.isAddOperation ? 'PUPPET_STATE' : this.data.city.government),
       standardOfLiving: new FormControl(this.data.isAddOperation ? 'HIGH' : this.data.city.standardOfLiving),
-      height: new FormControl(this.data.isAddOperation ? '' : this.data.city.governor.height),
+      height: new FormControl(this.data.isAddOperation ? '' : this.data.city.governor.height, Validators.required),
       birthdayDate: new FormControl(this.data.isAddOperation ? new Date() : this.data.city.governor.birthday),
       birthdayTime: new FormControl(this.data.isAddOperation ?  new Date().getHours() + ':' +  new Date().getMinutes() : this.data.city.governor.birthday.getHours() + ':' + this.data.city.governor.birthday.getMinutes()),
     });
@@ -65,18 +65,19 @@ export class AddOrUpdateCityFormComponent implements OnInit, OnDestroy {
       }
     }
     const city = new City(
-      this.data.isAddOperation ? 0 : this.data.city.id,
+      this.data.isAddOperation ? 0 : Number(this.data.city.id),
       this.cityForm.get('name').value,
-      new Coordinates(0, this.cityForm.get('x').value, this.cityForm.get('y').value),
+      new Coordinates(0, this.cityForm.get('x').value.toString(), this.cityForm.get('y').value.toString()),
       this.data.isAddOperation ? null : this.data.city.creationDate,
-      this.cityForm.get('area').value,
-      this.cityForm.get('population').value,
-      this.cityForm.get('metersAboveSeaLevel').value,
-      this.cityForm.get('timezone').value,
+      this.cityForm.get('area').value.toString(),
+      this.cityForm.get('population').value.toString(),
+      this.cityForm.get('metersAboveSeaLevel').value.toString(),
+      this.cityForm.get('timezone').value.toString(),
       this.cityForm.get('government').value,
       this.cityForm.get('standardOfLiving').value,
-      new Human(0, this.cityForm.get('height').value, this.getCorrectDate(this.cityForm.get('birthdayTime').value, this.cityForm.get('birthdayDate').value))
+      new Human(0, this.cityForm.get('height').value.toString(), this.getCorrectDate(this.cityForm.get('birthdayTime').value, this.cityForm.get('birthdayDate').value))
     );
+    console.log(city)
     this.data.isAddOperation ? this.addCity(city) : this.updateCity(city);
   }
 
@@ -101,7 +102,7 @@ export class AddOrUpdateCityFormComponent implements OnInit, OnDestroy {
       this.getAllCities.emit();
       this.closeDialog();
     }, (error: any) => {
-      this.requestErrors = error.error;
+      this.requestErrors = error.error.errors;
       this.requestErrorsMap.clear();
       this.requestErrors.forEach((err: AddOrUpdateError) => {
         this.requestErrorsMap.set(err.name, err.desc);
@@ -116,7 +117,8 @@ export class AddOrUpdateCityFormComponent implements OnInit, OnDestroy {
       this.getAllCities.emit();
       this.closeDialog();
     }, (error: any) => {
-      this.requestErrors = error.error;
+      console.log(error)
+      this.requestErrors = error.error.errors;
       this.requestErrorsMap.clear();
       this.requestErrors.forEach((err: AddOrUpdateError) => {
         this.requestErrorsMap.set(err.name, err.desc);

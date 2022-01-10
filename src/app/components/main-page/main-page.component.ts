@@ -73,7 +73,12 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
       takeUntil(this.onDestroy)
     ).subscribe(() => {
       this.getAllCities(this.selectedFilterData);
-    });
+    }, error => {
+        if (error.status === 404) {
+          this.snackBarService.openSnackBar(error.error.message);
+        }
+      }
+    );
   }
 
   getAllCities(filterData): void {
@@ -81,13 +86,14 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
       takeUntil(this.onDestroy)
     ).subscribe((paginationResults: PaginationResult) => {
       this.paginationResult = paginationResults;
-      this.cities = paginationResults.list;
-      if (this.cities.length === 0) {
+      if (paginationResults.list === null) {
         this.snackBarService.openSnackBar('Cities not found');
         this.cities = [];
+      } else {
+        this.cities = paginationResults.list;
       }
     }, (error => {
-      this.snackBarService.openSnackBar(error);
+      this.snackBarService.openSnackBar(error.error.message);
     }));
   }
 
@@ -122,8 +128,6 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
   getFilterCitiesError(error: any): void {
     if (error.status === 404) {
       this.cities = [];
-      this.snackBarService.openSnackBar('Cities not found');
-    } else {
       this.snackBarService.openSnackBar(error.error.message);
     }
   }
