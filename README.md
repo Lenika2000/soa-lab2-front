@@ -15,3 +15,8 @@
 ### Валидация форм ввода
 
 ![4](FieldsValidation.jpg)
+
+Запуск:
+
+в папке soa-lab2-front в консоли вводим npm install(установка необходимых модулей),
+затем ng serve --open
